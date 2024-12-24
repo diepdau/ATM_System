@@ -1,0 +1,74 @@
+version: "3"
+services:
+  frontend-2115196:
+    image: frontend-2115196
+    container_name: frontend-app-2115196
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    stdin_open: true
+    ports: 
+      - "3000:3000"
+    networks:
+      - mern-app
+  backend-2115196:
+    image: backend-2115196
+    container_name: backend-app-2115196
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - mern-app
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - mern-app
+    volumes:
+      - mongo-data:/data/db
+networks:
+  mern-app:
+    driver: bridge
+volumes:
+  mongo-data:
+    driver: local
+
+# Tải image từ dockerHub
+# version: "3"
+# services:
+#   frontend-2115196:
+#     image: 2115196/client-server:frontend
+#     container_name: frontend-app-2115196
+#     ports: 
+#       - "3000:3000"
+#     networks:
+#       - mern-app
+#   backend-2115196:
+#     image: 2115196/client-server:backend
+#     container_name: backend-app-2115196
+#     ports:
+#       - "8000:8000"
+#     networks:
+#       - mern-app
+#     depends_on:
+#       - mongo
+#   mongo:
+#     image: mongo
+#     ports:
+#       - "27017:27017"
+#     networks:
+#       - mern-app
+#     volumes:
+#       - mongo-data:/data/db
+# networks:
+#   mern-app:
+#     driver: bridge
+# volumes:
+#   mongo-data:
+#     driver: local
+
